@@ -1,31 +1,31 @@
 # FindApps
 
-Gerenciador universal de aplicativos para Linux. Detecta, organiza e desinstala programas instalados via **APT**, **DNF**, **Flatpak**, **Snap**, **AppImage** e instalações **manuais**, com interface nativa GTK4/libadwaita.
+Universal Linux application manager. Detects, organizes, and uninstalls programs installed via **APT**, **DNF**, **Flatpak**, **Snap**, **AppImage**, and **manual** installs, with a native GTK4/libadwaita interface.
 
-> MVP 0.1.0 — focado em descoberta e gerenciamento. Instalação e atualizações estão preparados na arquitetura, mas ainda não implementados.
+> MVP 0.1.0 — focused on discovery and management. Install and update flows are prepared in the architecture but not yet implemented.
 
-## Distribuições suportadas
+## Supported distributions
 
-| Família | Prioridade | Backends típicos |
-|---------|------------|------------------|
-| Debian / Ubuntu e derivados | Alta | APT, Snap, Flatpak, AppImage, Manual |
-| Fedora / RHEL e derivados | Alta | DNF, Flatpak, AppImage, Manual |
-| Arch, openSUSE, Nix | Futuro | Arquitetura extensível pronta |
+| Family | Priority | Typical backends |
+|--------|----------|------------------|
+| Debian / Ubuntu and derivatives | High | APT, Snap, Flatpak, AppImage, Manual |
+| Fedora / RHEL and derivatives | High | DNF, Flatpak, AppImage, Manual |
+| Arch, openSUSE, Nix | Future | Extensible architecture ready |
 
-A interface **não** contém lógica de distribuição. Os backends são detectados automaticamente; backends ausentes são omitidos sem erro.
+The UI contains **no** distribution-specific logic. Backends are detected automatically; missing backends are omitted without errors.
 
-## Backends implementados
+## Implemented backends
 
-| Backend | Detectar | Listar | Desinstalar | Instalar / Atualizar |
-|---------|----------|--------|-------------|----------------------|
-| APT | Sim | Sim | Sim (pkexec) | Stub |
-| DNF | Sim | Sim | Sim (pkexec) | Stub |
-| Flatpak | Sim | Sim | Sim | Stub |
-| Snap | Sim | Sim | Sim (pkexec) | Stub |
-| AppImage | Sim | Sim | Sim (arquivos em `$HOME`) | Stub |
-| Manual | Sim | Sim | Limitado (`~/.local`) | Stub |
+| Backend | Detect | List | Uninstall | Install / Update |
+|---------|--------|------|-----------|------------------|
+| APT | Yes | Yes | Yes (pkexec) | Stub |
+| DNF | Yes | Yes | Yes (pkexec) | Stub |
+| Flatpak | Yes | Yes | Yes | Stub |
+| Snap | Yes | Yes | Yes (pkexec) | Stub |
+| AppImage | Yes | Yes | Yes (files under `$HOME`) | Stub |
+| Manual | Yes | Yes | Limited (`~/.local`) | Stub |
 
-## Dependências do sistema
+## System dependencies
 
 ### Ubuntu / Debian
 
@@ -44,76 +44,76 @@ sudo dnf install gcc pkg-config \
   polkit
 ```
 
-Também é necessário o [Rust](https://rustup.rs/) (1.75+ recomendado):
+You also need [Rust](https://rustup.rs/) (1.75+ recommended):
 
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-## Desenvolvimento
+## Development
 
 ```bash
-# Clonar / entrar no projeto
-cd findapps
+# Clone / enter the project
+cd findApps
 
-# (recomendado) deps do sistema instaladas — ver seção acima
-# Se os headers *-dev não puderem ser instalados via apt/dnf, use:
+# (recommended) system deps installed — see section above
+# If *-dev headers cannot be installed via apt/dnf, use:
 #   source scripts/dev-env.sh
 
-# Executar em modo desenvolvimento
+# Run in development mode
 cargo run
 
-# Compilar release
+# Release build
 cargo build --release
 
-# Binário
+# Binary
 ./target/release/findapps
 ```
 
-### Variáveis úteis
+### Useful variables
 
 ```bash
-RUST_LOG=debug cargo run   # logs detalhados no stderr e em ~/.local/share/findapps/logs/
+RUST_LOG=debug cargo run   # detailed logs on stderr and in ~/.local/share/findapps/logs/
 ```
 
-## Testes
+## Tests
 
 ```bash
 cargo test
 ```
 
-Os testes usam **mocks** dos gerenciadores de pacotes e fixtures temporárias (AppImage/desktop). Não alteram o sistema real.
+Tests use **mocks** for package managers and temporary fixtures (AppImage/desktop). They do not change the real system.
 
-## Empacotamento
+## Packaging
 
-Esqueletos em `packaging/`:
+Skeletons live under `packaging/`:
 
 ### Snap (Ubuntu App Center)
 
-Requer `snapcraft` e conta em [snapcraft.io](https://snapcraft.io) com o developer agreement assinado.
+Requires `snapcraft` and an account on [snapcraft.io](https://snapcraft.io) with the developer agreement signed.
 
-> **Importante:** o `snapcraft` falha se o caminho do projeto tiver espaços (ex.: `Área de trabalho`). Use o script abaixo, que empacota a partir de um diretório limpo.
+> **Important:** `snapcraft` fails if the project path contains spaces. Use the script below, which packs from a clean directory.
 
 ```bash
-# Registrar o nome (uma vez)
+# Register the name (once)
 snapcraft login
 snapcraft register findapps
 
-# Empacotar (recomendado — evita bug do espaço no caminho)
+# Pack (recommended — avoids the space-in-path bug)
 ./scripts/build-snap.sh
 
-# Ou manualmente, a partir de um path sem espaços:
+# Or manually from a path without spaces:
 #   rsync -a --exclude target --exclude .git ./ ~/findapps-snap-build/
 #   cd ~/findapps-snap-build && sudo snapcraft pack --destructive-mode
 
-# Instalar localmente para teste (use o nome real do arquivo)
+# Install locally for testing (use the real filename)
 sudo snap install --dangerous --classic ./findapps_*.snap
 
-# Publicar (após revisão classic pela Canonical)
+# Publish (after classic review by Canonical)
 snapcraft upload --release=edge ./findapps_*.snap
 ```
 
-O snap usa `confinement: classic` porque precisa acessar gerenciadores do host (APT, Flatpak, Snap, pkexec).
+The snap uses `confinement: classic` because it must access host package managers (APT, Flatpak, Snap, pkexec).
 
 ### Flatpak
 
@@ -121,29 +121,29 @@ O snap usa `confinement: classic` porque precisa acessar gerenciadores do host (
 flatpak-builder --user --install build-dir packaging/flatpak/br.com.findapps.FindApps.yml
 ```
 
-### .deb (esqueleto)
+### .deb (skeleton)
 
-Arquivos em `packaging/deb/`. Integre com `dh` / cópia para `debian/` conforme o fluxo da distribuição.
+Files in `packaging/deb/`. Integrate with `dh` / copy into `debian/` as required by your packaging flow.
 
-### AppImage (esqueleto)
+### AppImage (skeleton)
 
 1. `cargo build --release`
-2. Use `packaging/appimage/AppImageBuilder.yml` com [appimage-builder](https://appimage-builder.readthedocs.io/) ou linuxdeploy.
+2. Use `packaging/appimage/AppImageBuilder.yml` with [appimage-builder](https://appimage-builder.readthedocs.io/) or linuxdeploy.
 
-Arquivos desktop/metainfo/PolicyKit estão em `data/`:
+Desktop, metainfo, and PolicyKit files are under `data/`:
 
 - `br.com.findapps.FindApps.desktop`
 - `br.com.findapps.FindApps.metainfo.xml`
 - `br.com.findapps.FindApps.policy`
 
-## Segurança
+## Security
 
-- Comandos com **argumentos separados** (sem shell).
-- IDs de pacote validados antes de operações.
-- Elevação apenas na operação (`pkexec` / PolicyKit), nunca `sudo` no processo inteiro.
-- Confirmação explícita antes de desinstalar, com descrição clara do backend e da operação.
+- Commands use **separate arguments** (no shell).
+- Package IDs are validated before operations.
+- Elevation only for the operation (`pkexec` / PolicyKit), never `sudo` for the whole process.
+- Explicit confirmation before uninstall, with a clear description of the backend and operation.
 
-## Arquitetura
+## Architecture
 
 ```text
                  FindApps
@@ -156,18 +156,18 @@ Arquivos desktop/metainfo/PolicyKit estão em `data/`:
       Snap        AppImage       Manual
 ```
 
-Cada backend implementa a trait `PackageBackend` (`detect`, `list_installed`, `get_details`, `uninstall`, `install`, `update`, `check_updates`).
+Each backend implements the `PackageBackend` trait (`detect`, `list_installed`, `get_details`, `uninstall`, `install`, `update`, `check_updates`).
 
 ## Roadmap
 
-- [ ] Instalação com escolha de método (Flatpak / Snap / APT / …)
-- [ ] Detecção e aplicação de atualizações
-- [ ] Backend Arch / pacman
-- [ ] Backend openSUSE / zypper
-- [ ] Backend Nix
-- [ ] Pacotes RPM oficiais e AUR
+- [ ] Install with method selection (Flatpak / Snap / APT / …)
+- [ ] Detect and apply updates
+- [ ] Arch / pacman backend
+- [ ] openSUSE / zypper backend
+- [ ] Nix backend
+- [ ] Official RPM packages and AUR
 - [x] i18n (English default + Chinese, Spanish, Hindi, Arabic, Portuguese, Russian)
 
-## Licença
+## License
 
 GPL-3.0-or-later
