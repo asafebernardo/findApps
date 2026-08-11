@@ -1,65 +1,47 @@
 name: findapps
 base: core24
 version: "0.1.0"
+
 summary: Universal Linux app manager for APT, Flatpak, Snap, DNF and AppImage
+
 description: |
-  FindApps is a universal application manager for Linux. It finds, organizes
-  and safely uninstalls software installed through multiple package systems
-  in one place.
+  FindApps is a universal application manager for Linux.
+  It finds, organizes and safely uninstalls software installed
+  through multiple package systems in one place.
 
   Supported sources:
-  - APT (Debian / Ubuntu)
-  - DNF (Fedora / RHEL)
-  - Flatpak
-  - Snap
-  - AppImage
-  - Manual installs under your home directory
+    - APT
+    - DNF
+    - Flatpak
+    - Snap
+    - AppImage
+    - Manual installs under your home directory
 
-  Features:
-  - Automatic detection of available backends on your system
-  - Search, filters and sorting across all installed apps
-  - App details with package metadata
-  - Safe uninstall with confirmation and privilege elevation only when needed
-  - Native GTK4 / libadwaita interface
-  - Multiple languages
+  FindApps provides search, filtering, sorting, application
+  metadata and safe uninstall with privilege elevation when needed.
 
-  Classic confinement is required so the app can talk to host package
-  managers (apt, dnf, flatpak, snap) and elevate with pkexec.
-
-  Note: version 0.1.0 focuses on discovery and uninstall. Install and update
-  flows are planned for future releases.
 website: https://github.com/asafebernardo/findApps
 contact: https://github.com/asafebernardo/findApps/issues
 issues: https://github.com/asafebernardo/findApps/issues
 source-code: https://github.com/asafebernardo/findApps
+
 license: GPL-3.0-or-later
 icon: snap/gui/icon.png
 
 grade: devel
 confinement: classic
-adopt-info: findapps
 
 platforms:
   amd64:
   arm64:
-
-apps:
-  findapps:
-    command: bin/findapps
-    desktop: usr/share/applications/br.com.findapps.FindApps.desktop
-    common-id: br.com.findapps.FindApps
-    environment:
-      # Prefer snap-shipped desktop/icon metadata; fall back to the host.
-      XDG_DATA_DIRS: $SNAP/usr/share:/usr/local/share:/usr/share
 
 parts:
   findapps:
     plugin: rust
     source: .
     source-type: local
-    parse-info:
-      - usr/share/metainfo/br.com.findapps.FindApps.metainfo.xml
     rust-channel: stable
+
     build-packages:
       - pkg-config
       - libgtk-4-dev
@@ -69,15 +51,22 @@ parts:
       - libgraphene-1.0-dev
       - libcairo2-dev
       - libgdk-pixbuf-2.0-dev
+
     override-build: |
       set -eux
+
       craftctl default
 
-      install -Dm644 data/br.com.findapps.FindApps.desktop \
+      install -Dm644 \
+        data/br.com.findapps.FindApps.desktop \
         "${CRAFT_PART_INSTALL}/usr/share/applications/br.com.findapps.FindApps.desktop"
-      install -Dm644 data/br.com.findapps.FindApps.metainfo.xml \
+
+      install -Dm644 \
+        data/br.com.findapps.FindApps.metainfo.xml \
         "${CRAFT_PART_INSTALL}/usr/share/metainfo/br.com.findapps.FindApps.metainfo.xml"
-      install -Dm644 resources/icons/br.com.findapps.FindApps.png \
+
+      install -Dm644 \
+        resources/icons/br.com.findapps.FindApps.png \
         "${CRAFT_PART_INSTALL}/usr/share/findapps/br.com.findapps.FindApps.png"
 
       for size in 16 24 32 48 64 128 256 512; do
@@ -85,3 +74,11 @@ parts:
           "data/icons/hicolor/${size}x${size}/apps/br.com.findapps.FindApps.png" \
           "${CRAFT_PART_INSTALL}/usr/share/icons/hicolor/${size}x${size}/apps/br.com.findapps.FindApps.png"
       done
+
+apps:
+  findapps:
+    command: bin/findapps
+    desktop: usr/share/applications/br.com.findapps.FindApps.desktop
+    common-id: br.com.findapps.FindApps
+    environment:
+      XDG_DATA_DIRS: $SNAP/usr/share:/usr/local/share:/usr/share
