@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=FindApps
+Comment=Gerenciador universal de aplicativos Linux
+Comment[pt_BR]=Gerenciador universal de aplicativos Linux
+Exec=findapps
+Icon=br.com.findapps.FindApps
+Terminal=false
+Type=Application
+Categories=System;PackageManager;Utility;
+Keywords=package;apt;flatpak;snap;appimage;dnf;
+StartupNotify=true

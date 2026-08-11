@@ -1,0 +1,17 @@
+target/
+.env.build
+*.deb
+.flatpak-builder/
+build-dir/
+AppDir/
+*.AppImage
+.idea/
+.vscode/
+*.swp
+
+# Snapcraft local build artifacts
+parts/
+stage/
+prime/
+*.snap
+.snapcraft/

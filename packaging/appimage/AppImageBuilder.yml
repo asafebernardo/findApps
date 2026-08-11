@@ -1,0 +1,26 @@
+# AppImage packaging skeleton for FindApps
+# Requires appimagetool / linuxdeploy after a release build.
+
+version: 1
+AppDir:
+  path: ./AppDir
+  app_info:
+    id: br.com.findapps.FindApps
+    name: FindApps
+    icon: application-x-executable
+    version: 0.1.0
+    exec: usr/bin/findapps
+    exec_args: $@
+  apt:
+    arch: amd64
+    sources:
+      - sourceline: 'deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ noble main universe'
+    include:
+      - libgtk-4-1
+      - libadwaita-1-0
+  files:
+    include:
+      - target/release/findapps
+AppImage:
+  arch: x86_64
+  update-information: None

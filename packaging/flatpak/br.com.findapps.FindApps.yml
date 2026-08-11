@@ -1,0 +1,33 @@
+id: br.com.findapps.FindApps
+runtime: org.gnome.Platform
+runtime-version: '46'
+sdk: org.gnome.Sdk
+command: findapps
+finish-args:
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --device=dri
+  - --filesystem=xdg-download:ro
+  - --filesystem=xdg-data/applications:ro
+  - --filesystem=home:ro
+  - --talk-name=org.freedesktop.Flatpak
+  - --system-talk-name=org.freedesktop.PackageKit
+modules:
+  - name: findapps
+    buildsystem: simple
+    build-commands:
+      - cargo --offline fetch --manifest-path Cargo.toml || cargo fetch --manifest-path Cargo.toml
+      - cargo --offline build --release --manifest-path Cargo.toml || cargo build --release --manifest-path Cargo.toml
+      - install -Dm755 target/release/findapps /app/bin/findapps
+      - install -Dm644 data/br.com.findapps.FindApps.desktop /app/share/applications/br.com.findapps.FindApps.desktop
+      - install -Dm644 data/br.com.findapps.FindApps.metainfo.xml /app/share/metainfo/br.com.findapps.FindApps.metainfo.xml
+      - |
+        for size in 16 24 32 48 64 128 256 512; do
+          install -Dm644 data/icons/hicolor/${size}x${size}/apps/br.com.findapps.FindApps.png \
+            /app/share/icons/hicolor/${size}x${size}/apps/br.com.findapps.FindApps.png
+        done
+      - install -Dm644 resources/icons/br.com.findapps.FindApps.png /app/share/findapps/br.com.findapps.FindApps.png
+    sources:
+      - type: dir
+        path: ../..

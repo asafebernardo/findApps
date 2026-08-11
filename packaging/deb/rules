@@ -1,0 +1,21 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	cargo build --release --locked || cargo build --release
+
+override_dh_auto_install:
+	install -Dm755 target/release/findapps debian/findapps/usr/bin/findapps
+	install -Dm644 data/br.com.findapps.FindApps.desktop debian/findapps/usr/share/applications/br.com.findapps.FindApps.desktop
+	install -Dm644 data/br.com.findapps.FindApps.metainfo.xml debian/findapps/usr/share/metainfo/br.com.findapps.FindApps.metainfo.xml
+	install -Dm644 data/br.com.findapps.FindApps.policy debian/findapps/usr/share/polkit-1/actions/br.com.findapps.FindApps.policy
+	for size in 16 24 32 48 64 128 256 512; do \
+	  install -Dm644 data/icons/hicolor/$${size}x$${size}/apps/br.com.findapps.FindApps.png \
+	    debian/findapps/usr/share/icons/hicolor/$${size}x$${size}/apps/br.com.findapps.FindApps.png; \
+	done
+	install -Dm644 resources/icons/br.com.findapps.FindApps.png debian/findapps/usr/share/findapps/br.com.findapps.FindApps.png
+
+override_dh_auto_test:
+	cargo test --release -- --test-threads=1 || true

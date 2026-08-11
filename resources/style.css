@@ -1,0 +1,55 @@
+/* FindApps styles */
+
+.method-apt {
+  color: #2ec27e;
+}
+
+.method-dnf {
+  color: #3584e4;
+}
+
+.method-flatpak {
+  color: #1a5fb4;
+}
+
+.method-snap {
+  color: #e66100;
+}
+
+.method-appimage {
+  color: #9141ac;
+}
+
+.method-manual {
+  color: #77767b;
+}
+
+.method-system {
+  color: #5e5c64;
+}
+
+.app-card {
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.app-row-title {
+  font-weight: 600;
+}
+
+.dashboard-stat {
+  font-size: 1.8em;
+  font-weight: 700;
+}
+
+.scan-ok {
+  color: #2ec27e;
+}
+
+.scan-pending {
+  color: #e5a50a;
+}
+
+.scan-fail {
+  color: #c01c28;
+}

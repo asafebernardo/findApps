@@ -1,0 +1,57 @@
+# FindApps — Snap Store listing
+# Upload banner: store/findapps-banner.png (also ~/Downloads/findapps-banner.png)
+# Icon: store/findapps-icon.png / snap/gui/icon.png
+
+## Summary (English) — max ~79 characters recommended
+Universal Linux app manager for APT, Flatpak, Snap, DNF and AppImage
+
+## Description (English)
+
+FindApps is a universal application manager for Linux. It finds, organizes and safely uninstalls software installed through multiple package systems in one place.
+
+Supported sources:
+- APT (Debian / Ubuntu)
+- DNF (Fedora / RHEL)
+- Flatpak
+- Snap
+- AppImage
+- Manual installs under your home directory
+
+Features:
+- Automatic detection of available backends on your system
+- Search, filters and sorting across all installed apps
+- App details with package metadata
+- Safe uninstall with confirmation and privilege elevation only when needed (pkexec)
+- Native GTK4 / libadwaita interface
+- Multiple languages (English, Portuguese, Spanish, Chinese, Hindi, Arabic, Russian)
+
+FindApps is designed for everyday desktop use: see what is installed, understand where it came from, and remove what you no longer need — without juggling several different package tools.
+
+Note: version 0.1.0 focuses on discovery and uninstall. Install and update flows are planned for future releases.
+
+## Summary (Português)
+Gerenciador universal de apps Linux: APT, Flatpak, Snap, DNF e AppImage
+
+## Description (Português)
+
+O FindApps é um gerenciador universal de aplicativos para Linux. Ele encontra, organiza e desinstala com segurança programas instalados por vários sistemas de pacotes, tudo em um só lugar.
+
+Fontes suportadas:
+- APT (Debian / Ubuntu)
+- DNF (Fedora / RHEL)
+- Flatpak
+- Snap
+- AppImage
+- Instalações manuais na sua pasta home
+
+Recursos:
+- Detecção automática dos backends disponíveis no sistema
+- Pesquisa, filtros e ordenação em todos os apps instalados
+- Detalhes do aplicativo com metadados do pacote
+- Desinstalação segura com confirmação e elevação de privilégio só quando necessário (pkexec)
+- Interface nativa GTK4 / libadwaita
+- Vários idiomas (inglês, português, espanhol, chinês, hindi, árabe, russo)
+
+Feito para o uso diário no desktop: veja o que está instalado, de onde veio e remova o que não precisa mais — sem alternar entre várias ferramentas de pacote.
+
+Nota: a versão 0.1.0 foca em descoberta e desinstalação. Instalação e atualização estão previstas para versões futuras.
